@@ -1,0 +1,20 @@
+{
+  "name": "colmena-node-base",
+  "version": "1.0.1",
+  "description": "Colmena node base Docker image",
+  "main": "server/server",
+  "scripts": {
+    "release": "np",
+    "start": "node .",
+    "test": "true"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "np": "^2.12.0"
+  }
+}
