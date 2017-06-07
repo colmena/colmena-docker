@@ -1,12 +1,10 @@
 # Base image
-FROM node:7.7.2-alpine
+FROM node:8.0.0-alpine
 
 # Set version numbers
-ENV PM2_VERSION 2.4.2
-ENV NPS_VERSION 5.0.4
+ENV PM2_VERSION 2.4.6
 
 # Install global packages
-RUN npm install -g nps@${NPS_VERSION}
 RUN npm install -g pm2@${PM2_VERSION}
 
 # Add application folder
