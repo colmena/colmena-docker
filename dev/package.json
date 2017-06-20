@@ -1,0 +1,17 @@
+{
+  "name": "colmena-dev",
+  "version": "1.0.0-rc.1",
+  "description": "Colmena Dev base Docker image",
+  "scripts": {
+    "release": "np",
+    "serve": "true",
+    "test": "true"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "np": "^2.12.0"
+  }
+}
