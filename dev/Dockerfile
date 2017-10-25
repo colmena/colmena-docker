@@ -1,5 +1,5 @@
 # Base image
-FROM node:7-alpine
+FROM node:8-alpine
 
 # Set NPM Log Level to reduce output
 ENV NPM_CONFIG_LOGLEVEL warn
@@ -7,9 +7,9 @@ ENV NPM_CONFIG_LOGLEVEL warn
 # Set version numbers
 ENV NODE_GYP_VERSION 3.6.2
 ENV NODE_SASS_VERSION 4.5.3
-ENV LERNA_VERSION 2.0.0-rc.5
-ENV ANGULAR_CLI_VERSION 1.1.3
-ENV PM2_VERSION 2.5.0
+ENV LERNA_VERSION 2.4.0
+ENV ANGULAR_CLI_VERSION 1.4.9
+ENV PM2_VERSION 2.7.2
 
 # Install global packages
 RUN npm install -g \
