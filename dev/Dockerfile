@@ -11,23 +11,33 @@ ENV LERNA_VERSION 2.4.0
 ENV ANGULAR_CLI_VERSION 1.4.9
 ENV PM2_VERSION 2.7.2
 
-# Install global packages
-RUN npm install -g \
-  node-gyp@${NODE_GYP_VERSION} \
-  node-sass@${NODE_SASS_VERSION} \
-  lerna@${LERNA_VERSION} \
-  @angular/cli@${ANGULAR_CLI_VERSION} \
-  pm2@${PM2_VERSION}
+ENV MAIN_DEPS g++ gcc libgcc libstdc++ linux-headers make python
 
-ENV PHANTOM_VERSION 2.11
+# Install global packages
+RUN apk update \
+    && apk add --virtual native-deps --no-cache ${MAIN_DEPS} \
+    && yarn add -g \
+        @angular/cli@${ANGULAR_CLI_VERSION} \
+        lerna@${LERNA_VERSION} \
+        node-sass@${NODE_SASS_VERSION} \
+        node-gyp@${NODE_GYP_VERSION} \
+        pm2@${PM2_VERSION} \
+    && apk del native-deps
 
 # Install PhantomJS
-RUN apk update && apk add --no-cache fontconfig git curl && \
-  mkdir -p /usr/share && \
-  cd /usr/share \
-  && curl -L https://github.com/Overbryd/docker-phantomjs-alpine/releases/download/${PHANTOM_VERSION}/phantomjs-alpine-x86_64.tar.bz2 | tar xj \
-  && ln -s /usr/share/phantomjs/phantomjs /usr/bin/phantomjs \
-  && phantomjs --version
+ENV PHANTOM_VERSION 2.11
+ENV PHANTOM_URL https://github.com/Overbryd/docker-phantomjs-alpine/releases/download/${PHANTOM_VERSION}/phantomjs-alpine-x86_64.tar.bz2
+ENV PHANTOM_DEPS fontconfig git curl
+ENV PHANTOM_TARGET /usr/share
+
+RUN apk update \
+    && apk add --virtual phantom-virtual --no-cache ${PHANTOM_DEPS} \
+    && mkdir -p ${PHANTOM_TARGET} \
+    && cd ${PHANTOM_TARGET} \
+    && curl -L ${PHANTOM_URL} | tar xj \
+    && ln -s ${PHANTOM_TARGET}/phantomjs/phantomjs /usr/bin/phantomjs \
+    && phantomjs --version \
+    && apk del phantom-virtual
 
 # Add application folder
 RUN mkdir /app
