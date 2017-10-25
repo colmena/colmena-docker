@@ -11,11 +11,15 @@ ENV LERNA_VERSION 2.4.0
 ENV ANGULAR_CLI_VERSION 1.4.9
 ENV PM2_VERSION 2.7.2
 
-ENV MAIN_DEPS g++ gcc libgcc libstdc++ linux-headers make python
+ENV SYSTEM_DEPS git
+RUN apk update \
+    && apk add --no-cache ${SYSTEM_DEPS}
+
+ENV TEMP_DEPS g++ gcc libgcc libstdc++ linux-headers make python
 
 # Install global packages
 RUN apk update \
-    && apk add --virtual native-deps --no-cache ${MAIN_DEPS} \
+    && apk add --virtual native-deps --no-cache ${TEMP_DEPS} \
     && yarn add -g \
         @angular/cli@${ANGULAR_CLI_VERSION} \
         lerna@${LERNA_VERSION} \
@@ -27,7 +31,7 @@ RUN apk update \
 # Install PhantomJS
 ENV PHANTOM_VERSION 2.11
 ENV PHANTOM_URL https://github.com/Overbryd/docker-phantomjs-alpine/releases/download/${PHANTOM_VERSION}/phantomjs-alpine-x86_64.tar.bz2
-ENV PHANTOM_DEPS fontconfig git curl
+ENV PHANTOM_DEPS fontconfig curl
 ENV PHANTOM_TARGET /usr/share
 
 RUN apk update \
